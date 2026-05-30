@@ -1,0 +1,25 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --void: #080808;
+  --ash: #111111;
+  --mist: #2a2a2a;
+  --smoke: #6b6b6b;
+  --pearl: #e8e8e8;
+  --red: #c0392b;
+}
+
+body {
+  background-color: var(--void);
+  color: var(--pearl);
+  -webkit-font-smoothing: antialiased;
+}
+
+.bg-void { background-color: var(--void); }
+.bg-ash { background-color: var(--ash); }
+.border-mist { border-color: var(--mist); }
+.text-smoke { color: var(--smoke); }
+.text-pearl { color: var(--pearl); }
+.text-red { color: var(--red); }
