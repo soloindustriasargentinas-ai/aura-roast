@@ -4,7 +4,7 @@ export async function POST(req: NextRequest) {
   try {
     const { sessionId, country } = await req.json()
     const accessToken = process.env.MP_ACCESS_TOKEN!
-    const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://roast.tuaura.com.ar"
+    const baseUrl = process.env.SITE_URL || "https://aura-roast.onrender.com"
 
     const preference = {
       items: [{
