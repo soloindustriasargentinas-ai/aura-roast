@@ -16,6 +16,32 @@ function extractHex(str: string): string | null {
   return m ? m[0] : null
 }
 
+function ShareButton({ auraName, freeHook }: { auraName: string; freeHook: string }) {
+  const [copied, setCopied] = useState(false)
+
+  const handleShare = async () => {
+    const text = `Soy "${auraName}"\n"${freeHook}"\n\nDescubrí tu roast en roast.tuaura.com.ar`
+    if (navigator.share) {
+      try { await navigator.share({ text, title: "Mi AURA ROAST" }) } catch {}
+    } else {
+      try {
+        await navigator.clipboard.writeText(text)
+        setCopied(true)
+        setTimeout(() => setCopied(false), 2000)
+      } catch {}
+    }
+  }
+
+  return (
+    <button
+      onClick={handleShare}
+      style={{ width: "100%", padding: "0.75rem", background: "none", border: "1px solid rgba(232,232,232,0.2)", fontSize: "11px", letterSpacing: "0.4em", textTransform: "uppercase" as const, color: "#e8e8e8", cursor: "pointer" }}
+    >
+      {copied ? "Copiado ✓" : "Compartir mi roast"}
+    </button>
+  )
+}
+
 function LoadingView({ auraName, dots }: { auraName: string; dots: string }) {
   return (
     <main style={S.page}>
@@ -170,6 +196,33 @@ function SuccessContent() {
           <p style={{ fontSize: "14px", color: "rgba(232,232,232,0.8)", lineHeight: 1.65, fontStyle: "italic" }}>
             {roastData.consejo_estatutario}
           </p>
+        </div>
+
+        {/* ROAST CARD */}
+        <div style={{ border: "1px solid rgba(42,42,42,0.6)", padding: "1.5rem", marginBottom: "1rem", background: "#0d0d0d", textAlign: "center" }}>
+          <p style={{ ...S.label, marginBottom: "1rem" }}>Compartí tu roast</p>
+          <div
+            id="roast-card"
+            style={{ background: "#080808", border: "1px solid rgba(232,232,232,0.1)", padding: "1.5rem", marginBottom: "1rem", textAlign: "left" }}
+          >
+            <p style={{ fontSize: "9px", letterSpacing: "0.5em", textTransform: "uppercase" as const, color: "#6b6b6b", marginBottom: "0.75rem" }}>AURA ROAST</p>
+            <p style={{ fontFamily: "Georgia, serif", fontWeight: 300, color: "#e8e8e8", fontSize: "1.1rem", lineHeight: 1.3, marginBottom: "0.75rem" }}>
+              {auraName}
+            </p>
+            <p style={{ fontSize: "12px", color: "rgba(232,232,232,0.6)", fontStyle: "italic", lineHeight: 1.5, marginBottom: "1rem" }}>
+              &ldquo;{freeHook}&rdquo;
+            </p>
+            {roastData.paleta_colores?.length > 0 && (
+              <div style={{ display: "flex", gap: "4px", marginBottom: "0.75rem" }}>
+                {roastData.paleta_colores.map((c, i) => {
+                  const hex = extractHex(c)
+                  return hex ? <div key={i} style={{ width: "18px", height: "18px", background: hex, border: "1px solid rgba(255,255,255,0.1)" }} /> : null
+                })}
+              </div>
+            )}
+            <p style={{ fontSize: "9px", letterSpacing: "0.3em", textTransform: "uppercase" as const, color: "#3a3a3a" }}>roast.tuaura.com.ar</p>
+          </div>
+          <ShareButton auraName={auraName} freeHook={freeHook} />
         </div>
 
         <a
