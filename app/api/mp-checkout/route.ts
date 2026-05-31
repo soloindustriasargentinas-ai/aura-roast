@@ -33,8 +33,13 @@ export async function POST(req: NextRequest) {
     })
 
     const data = await res.json()
-    const url = process.env.NODE_ENV === "production" ? data.init_point : data.sandbox_init_point
+    console.log("MP response:", JSON.stringify(data))
 
+    if (!res.ok) {
+      return NextResponse.json({ error: data.message || "MP error", details: data }, { status: 400 })
+    }
+
+    const url = data.init_point
     return NextResponse.json({ url })
   } catch (err) {
     return NextResponse.json({ error: (err as Error).message }, { status: 500 })
