@@ -20,7 +20,7 @@ export async function POST(req: NextRequest) {
         pending: `${baseUrl}/success?id=${sessionId}`
       },
       auto_return: "approved",
-      notification_url: `${baseUrl}/api/webhooks/mercadopago`
+      statement_descriptor: "AURA ROAST"
     }
 
     const res = await fetch("https://api.mercadopago.com/checkout/preferences", {
